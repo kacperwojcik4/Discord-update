@@ -1,0 +1,23 @@
+#!/bin/bash
+URL="https://discord.com/api/download?platform=linux&format=deb"
+TEMP_FILE="/tmp/discord.deb"
+
+echo " Rozpoczynam aktualizację Discorda..."
+
+wget -O "$TEMP_FILE" "$URL"
+
+if [ $? -ne 0 ]; then
+    echo " Błąd pobierania. Sprawdź połączenie z internetem."
+    exit 1
+fi
+
+echo "Rozpakowywanie i instalacja..."
+sudo dpkg -i "$TEMP_FILE"
+
+echo " Sprawdzanie zależności..."
+sudo apt-get install -f -y
+
+echo "Usuwanie plików tymczasowych..."
+rm "$TEMP_FILE"
+
+echo "Gotowe! Możesz uruchomić Discorda."
